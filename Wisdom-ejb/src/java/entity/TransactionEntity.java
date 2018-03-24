@@ -24,7 +24,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-public class Transaction implements Serializable {
+public class TransactionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,15 +35,15 @@ public class Transaction implements Serializable {
     private LocalDateTime time; // initialised to .now() upon construction
 
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Reader from;
+    private ReaderEntity from;
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Author to;
+    private AuthorEntity to;
 
-    public Transaction() {
+    public TransactionEntity() {
 
     }
 
-    public Transaction(BigDecimal amount, LocalDateTime time, Reader from, Author to) {
+    public TransactionEntity(BigDecimal amount, LocalDateTime time, ReaderEntity from, AuthorEntity to) {
         this.amount = amount;
         this.time = LocalDateTime.now();
         this.from = from;
@@ -74,19 +74,19 @@ public class Transaction implements Serializable {
         this.time = time;
     }
 
-    public Reader getFrom() {
+    public ReaderEntity getFrom() {
         return from;
     }
 
-    public void setFrom(Reader from) {
+    public void setFrom(ReaderEntity from) {
         this.from = from;
     }
 
-    public Author getTo() {
+    public AuthorEntity getTo() {
         return to;
     }
 
-    public void setTo(Author to) {
+    public void setTo(AuthorEntity to) {
         this.to = to;
     }
     

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Yongxue
  */
 @Entity
-public class Article implements Serializable {
+public class ArticleEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,24 +40,24 @@ public class Article implements Serializable {
     private LocalDateTime time;
 
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Author author;
+    private AuthorEntity author;
     
     @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "article")
-    private List<Reward> rewards = new ArrayList<>();
+    private List<RewardEntity> rewards = new ArrayList<>();
     
     /*
-    Reader - Article JoinTable
+    ReaderEntity - ArticleEntity JoinTable
      */
     @XmlTransient
     @ManyToMany(cascade = {CascadeType.DETACH}, mappedBy = "savedArticles")
-    private List<Reader> readers = new ArrayList<>();
+    private List<ReaderEntity> readers = new ArrayList<>();
 
-    public Article() {
+    public ArticleEntity() {
 
     }
 
-    public Article(String topic, String title, String description,
-            String content, Author author) {
+    public ArticleEntity(String topic, String title, String description,
+            String content, AuthorEntity author) {
         this.topic = topic;
         this.title = title;
         this.numOfLikes = 0;
@@ -122,11 +122,11 @@ public class Article implements Serializable {
         this.numOfLikes = numOfLikes;
     }
 
-    public Author getAuthor() {
+    public AuthorEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorEntity author) {
         this.author = author;
     }
 
@@ -138,19 +138,19 @@ public class Article implements Serializable {
         this.time = time;
     }
 
-    public List<Reader> getReaders() {
+    public List<ReaderEntity> getReaders() {
         return readers;
     }
 
-    public void setReaders(List<Reader> readers) {
+    public void setReaders(List<ReaderEntity> readers) {
         this.readers = readers;
     }
 
-    public List<Reward> getRewards() {
+    public List<RewardEntity> getRewards() {
         return rewards;
     }
 
-    public void setRewards(List<Reward> rewards) {
+    public void setRewards(List<RewardEntity> rewards) {
         this.rewards = rewards;
     }
     

@@ -5,8 +5,8 @@
  */
 package sessionBean;
 
-import entity.Article;
-import entity.Author;
+import entity.ArticleEntity;
+import entity.AuthorEntity;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,9 +29,9 @@ public class ArticleSessionBean implements ArticleSessionBeanLocal {
     public Long addNewArticle(String topic, String title, String description,
             String context, Long authorId) {
 
-        Author author = authorSessionBeanLocal.retrieveAuthorById(authorId);
+        AuthorEntity author = authorSessionBeanLocal.retrieveAuthorById(authorId);
         
-        Article article = new Article(topic, title, description, context, author);
+        ArticleEntity article = new ArticleEntity(topic, title, description, context, author);
 
         entityManager.persist(article);
         entityManager.flush();

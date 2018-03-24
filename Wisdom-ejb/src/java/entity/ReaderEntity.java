@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Yongxue
  */
 @Entity
-public class Reader implements Serializable {
+public class ReaderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,31 +43,31 @@ public class Reader implements Serializable {
 
     @XmlTransient
     @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "reader")
-    private List<Question> questions = new ArrayList<>();
+    private List<QuestionEntity> questions = new ArrayList<>();
     
     /*
-    Author - Reader JoinTable
+    AuthorEntity - ReaderEntity JoinTable
      */
-    @XmlTransient
+    @XmlTransient//? should it be returned?
     @ManyToMany(cascade = CascadeType.DETACH)
     @JoinTable(name = "ReaderFollowAuthor")
-    private List<Author> following = new ArrayList<>();
+    private List<AuthorEntity> following = new ArrayList<>();
     
      
     /*
-    Reader - Article JoinTable
+    ReaderEntity - ArticleEntity JoinTable
      */
     @XmlTransient
     @ManyToMany(cascade = CascadeType.DETACH)
     @JoinTable(name = "ReaderSaveArticle")
-    private List<Article> savedArticles = new ArrayList<>();
+    private List<ArticleEntity> savedArticles = new ArrayList<>();
     
 
-    public Reader() {
+    public ReaderEntity() {
         
     }
     
-    public Reader(String name, String email, String pwd) {
+    public ReaderEntity(String name, String email, String pwd) {
         this.name = name;
         this.email = email;
         this.pwd = pwd;
@@ -132,27 +132,27 @@ public class Reader implements Serializable {
         this.topics = topics;
     }
 
-    public List<Article> getSavedArticles() {
+    public List<ArticleEntity> getSavedArticles() {
         return savedArticles;
     }
 
-    public void setSavedArticles(List<Article> savedArticles) {
+    public void setSavedArticles(List<ArticleEntity> savedArticles) {
         this.savedArticles = savedArticles;
     }
 
-    public List<Question> getQuestions() {
+    public List<QuestionEntity> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<Question> questions) {
+    public void setQuestions(List<QuestionEntity> questions) {
         this.questions = questions;
     }
 
-    public List<Author> getFollowing() {
+    public List<AuthorEntity> getFollowing() {
         return following;
     }
 
-    public void setFollowing(List<Author> following) {
+    public void setFollowing(List<AuthorEntity> following) {
         this.following = following;
     }
 

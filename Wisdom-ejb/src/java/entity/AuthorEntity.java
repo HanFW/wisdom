@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Yongxue
  */
 @Entity
-public class Author implements Serializable {
+public class AuthorEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,25 +40,25 @@ public class Author implements Serializable {
 
     @XmlTransient
     @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "author")
-    private List<Article> articles = new ArrayList<>();
+    private List<ArticleEntity> articles = new ArrayList<>();
     
     @XmlTransient
     @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "author")
-    private List<Question> questions = new ArrayList<>();
+    private List<QuestionEntity> questions = new ArrayList<>();
     
     /*
-    Author - Reader JoinTable
+    AuthorEntity - ReaderEntity JoinTable
      */
     @XmlTransient
     @ManyToMany(cascade = {CascadeType.DETACH}, mappedBy = "following")
-    private List<Reader> followers = new ArrayList<>();
+    private List<ReaderEntity> followers = new ArrayList<>();
     
             
-    public Author() {
+    public AuthorEntity() {
         
     }
     
-    public Author(String name, String description, String email, String pwd) {
+    public AuthorEntity(String name, String description, String email, String pwd) {
         this.name = name;
         this.description = description;
         this.email = email;
@@ -131,27 +131,27 @@ public class Author implements Serializable {
         this.qtnPrice = qtnPrice;
     }
 
-    public List<Article> getArticles() {
+    public List<ArticleEntity> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<Article> articles) {
+    public void setArticles(List<ArticleEntity> articles) {
         this.articles = articles;
     }
 
-    public List<Question> getQuestions() {
+    public List<QuestionEntity> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<Question> questions) {
+    public void setQuestions(List<QuestionEntity> questions) {
         this.questions = questions;
     }
 
-    public List<Reader> getFollowers() {
+    public List<ReaderEntity> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(List<Reader> followers) {
+    public void setFollowers(List<ReaderEntity> followers) {
         this.followers = followers;
     }
     

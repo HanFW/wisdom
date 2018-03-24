@@ -18,7 +18,7 @@ import javax.persistence.OneToOne;
  * @author Yongxue
  */
 @Entity
-public class Question implements Serializable {
+public class QuestionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,17 +31,17 @@ public class Question implements Serializable {
     private String reply; // author's reply
     
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Reader reader; // raised the qtn
+    private ReaderEntity reader; // raised the qtn
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Author author; // asked to answer
+    private AuthorEntity author; // asked to answer
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Compensation compensation; 
+    private CompensationEntity compensation; 
 
-    public Question() {
+    public QuestionEntity() {
         
     }
     
-    public Question(String title, String content, String status, Reader reader, Author author) {
+    public QuestionEntity(String title, String content, String status, ReaderEntity reader, AuthorEntity author) {
         this.title = title;
         this.content = content;
         this.status = status;
@@ -89,27 +89,27 @@ public class Question implements Serializable {
         this.reply = reply;
     }
 
-    public Reader getReader() {
+    public ReaderEntity getReader() {
         return reader;
     }
 
-    public void setReader(Reader reader) {
+    public void setReader(ReaderEntity reader) {
         this.reader = reader;
     }
 
-    public Author getAuthor() {
+    public AuthorEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorEntity author) {
         this.author = author;
     }
 
-    public Compensation getCompensation() {
+    public CompensationEntity getCompensation() {
         return compensation;
     }
 
-    public void setCompensation(Compensation compensation) {
+    public void setCompensation(CompensationEntity compensation) {
         this.compensation = compensation;
     }
     

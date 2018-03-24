@@ -5,7 +5,7 @@
  */
 package sessionBean;
 
-import entity.Author;
+import entity.AuthorEntity;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -26,20 +26,20 @@ public class AuthorSessionBean implements AuthorSessionBeanLocal {
     private EntityManager entityManager;
 
     @Override
-    public Author retrieveAuthorById(Long authorId) {
-        Author author = new Author();
+    public AuthorEntity retrieveAuthorById(Long authorId) {
+        AuthorEntity author = new AuthorEntity();
 
         try {
             Query query = entityManager.createQuery("Select a From Author a Where a.authorId=:authorId");
             query.setParameter("authorId", authorId);
 
             if (query.getResultList().isEmpty()) {
-                return new Author();
+                return new AuthorEntity();
             } else {
-                author = (Author) query.getSingleResult();
+                author = (AuthorEntity) query.getSingleResult();
             }
         } catch (EntityNotFoundException enfe) {
-            return new Author();
+            return new AuthorEntity();
         } catch (NonUniqueResultException nure) {
         }
 

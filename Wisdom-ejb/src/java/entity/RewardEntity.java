@@ -18,24 +18,24 @@ import javax.persistence.OneToOne;
  * @author Yongxue
  */
 @Entity
-public class Compensation extends Transaction {
+public class RewardEntity extends TransactionEntity{
 
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Question question;
+    private ArticleEntity article;
 
-    public Compensation() {
-        
-    }
-    
-    public Compensation(Question question) {
-        this.question = question;
+    public RewardEntity() {
+
     }
 
-    public Question getQuestion() {
-        return question;
+    public RewardEntity(ArticleEntity article) {
+        this.article = article;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public ArticleEntity getArticle() {
+        return article;
+    }
+
+    public void setArticle(ArticleEntity article) {
+        this.article = article;
     }
 }
