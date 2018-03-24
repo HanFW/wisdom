@@ -5,6 +5,7 @@
  */
 package sessionBean;
 
+import entity.Author;
 import javax.ejb.Local;
 
 /**
@@ -12,9 +13,8 @@ import javax.ejb.Local;
  * @author Yongxue
  */
 @Local
-public interface ArticleSessionBeanLocal {
+public interface AuthorSessionBeanLocal {
 
-    public Long addNewArticle(String topic, String title, String description,
-            String context, Long authorId);
+    public Author retrieveAuthorById(Long authorId);
 
 }
