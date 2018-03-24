@@ -37,6 +37,10 @@ public class Reader implements Serializable {
     private ArrayList<Article> saved = new ArrayList<>(); // saved articles
     // available topics stored in client app
 
+    public Reader() {
+        
+    }
+    
     public Reader(String name, String email, String pwd, double balance) {
         this.name = name;
         this.email = email;

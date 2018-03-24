@@ -5,6 +5,7 @@
  */
 package sessionBean;
 
+import entity.Author;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +14,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface ArticleSessionBeanLocal {
-    
+
+    public Long addNewArticle(String topic, String title, String description,
+            String context, Author author);
+
 }

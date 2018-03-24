@@ -28,6 +28,10 @@ public class Compensation implements Serializable {
     @OneToOne(cascade = {CascadeType.DETACH})
     private Question question;
 
+    public Compensation() {
+        
+    }
+    
     public Compensation(Question question) {
         this.question = question;
     }

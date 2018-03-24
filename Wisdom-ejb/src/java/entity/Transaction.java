@@ -26,13 +26,17 @@ public class Transaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
 
-    private double amount; 
+    private double amount;
     private LocalDateTime time; // initialised to .now() upon construction
-    
+
     @OneToOne(cascade = {CascadeType.DETACH})
     private Reader from;
     @OneToOne(cascade = {CascadeType.DETACH})
     private Author to;
+
+    public Transaction() {
+
+    }
 
     public Transaction(double amount, LocalDateTime time, Reader from, Author to) {
         this.amount = amount;

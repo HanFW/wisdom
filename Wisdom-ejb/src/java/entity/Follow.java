@@ -32,6 +32,10 @@ public class Follow implements Serializable {
     @OneToOne(cascade = {CascadeType.DETACH})
     private Reader reader; // followed by
 
+    public Follow() {
+        
+    }
+    
     public Follow(LocalDateTime time, Author author, Reader reader) {
         this.time = LocalDateTime.now();
         this.author = author;
