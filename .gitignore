@@ -33,3 +33,7 @@ hs_err_pid*
 /nbproject/private/
 /Wisdom-ejb/nbproject/private/
 /Wisdom-war/nbproject/private/
+
+*.properties
+/Wisdom-ejb/nbproject/
+/Wisdom-war/nbproject/
