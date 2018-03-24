@@ -7,12 +7,17 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,11 +36,21 @@ public class Article implements Serializable {
     private String description; // short intro text
     private String picPath; // path to article picture 
     private String content;
-    private int numOfUpvotes = 0;
+    private Integer numOfLikes;
     private LocalDateTime time;
 
     @OneToOne(cascade = {CascadeType.DETACH})
     private Author author;
+    
+    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "article")
+    private List<Reward> rewards = new ArrayList<>();
+    
+    /*
+    Reader - Article JoinTable
+     */
+    @XmlTransient
+    @ManyToMany(cascade = {CascadeType.DETACH}, mappedBy = "savedArticles")
+    private List<Reader> readers = new ArrayList<>();
 
     public Article() {
 
@@ -45,6 +60,7 @@ public class Article implements Serializable {
             String content, Author author) {
         this.topic = topic;
         this.title = title;
+        this.numOfLikes = 0;
         this.description = description;
         this.content = content;
         this.author = author;
@@ -98,12 +114,12 @@ public class Article implements Serializable {
         this.content = content;
     }
 
-    public int getNumOfUpvotes() {
-        return numOfUpvotes;
+    public Integer getNumOfLikes() {
+        return numOfLikes;
     }
 
-    public void setNumOfUpvotes(int numOfUpvotes) {
-        this.numOfUpvotes = numOfUpvotes;
+    public void setNumOfLikes(Integer numOfLikes) {
+        this.numOfLikes = numOfLikes;
     }
 
     public Author getAuthor() {
@@ -113,4 +129,30 @@ public class Article implements Serializable {
     public void setAuthor(Author author) {
         this.author = author;
     }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public List<Reader> getReaders() {
+        return readers;
+    }
+
+    public void setReaders(List<Reader> readers) {
+        this.readers = readers;
+    }
+
+    public List<Reward> getRewards() {
+        return rewards;
+    }
+
+    public void setRewards(List<Reward> rewards) {
+        this.rewards = rewards;
+    }
+    
+    
 }

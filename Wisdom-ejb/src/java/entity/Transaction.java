@@ -6,19 +6,24 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
 /**
  *
  * @author Yongxue
  */
+
 @Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,7 +31,7 @@ public class Transaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
 
-    private double amount;
+    private BigDecimal amount;
     private LocalDateTime time; // initialised to .now() upon construction
 
     @OneToOne(cascade = {CascadeType.DETACH})
@@ -38,7 +43,7 @@ public class Transaction implements Serializable {
 
     }
 
-    public Transaction(double amount, LocalDateTime time, Reader from, Author to) {
+    public Transaction(BigDecimal amount, LocalDateTime time, Reader from, Author to) {
         this.amount = amount;
         this.time = LocalDateTime.now();
         this.from = from;
@@ -53,11 +58,11 @@ public class Transaction implements Serializable {
         this.transactionId = transactionId;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -84,4 +89,6 @@ public class Transaction implements Serializable {
     public void setTo(Author to) {
         this.to = to;
     }
+    
+    
 }

@@ -6,13 +6,18 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,22 +35,43 @@ public class Reader implements Serializable {
     private String email;
     private String pwd;
     private String picPath;
-    private double balance = 0; // topped up credit - usage
+    private BigDecimal balance; // topped up credit - usage
     private ArrayList<String> topics = new ArrayList<>(); // interested topics
     
-    @OneToMany(cascade = {CascadeType.DETACH})
-    private ArrayList<Article> saved = new ArrayList<>(); // saved articles
     // available topics stored in client app
+    
+
+    @XmlTransient
+    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "reader")
+    private List<Question> questions = new ArrayList<>();
+    
+    /*
+    Author - Reader JoinTable
+     */
+    @XmlTransient
+    @ManyToMany(cascade = CascadeType.DETACH)
+    @JoinTable(name = "ReaderFollowAuthor")
+    private List<Author> following = new ArrayList<>();
+    
+     
+    /*
+    Reader - Article JoinTable
+     */
+    @XmlTransient
+    @ManyToMany(cascade = CascadeType.DETACH)
+    @JoinTable(name = "ReaderSaveArticle")
+    private List<Article> savedArticles = new ArrayList<>();
+    
 
     public Reader() {
         
     }
     
-    public Reader(String name, String email, String pwd, double balance) {
+    public Reader(String name, String email, String pwd) {
         this.name = name;
         this.email = email;
         this.pwd = pwd;
-        this.balance = balance;
+        this.balance = new BigDecimal (0);
     }
 
     public Long getReaderId() {
@@ -88,13 +114,15 @@ public class Reader implements Serializable {
         this.picPath = picPath;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
+
 
     public ArrayList<String> getTopics() {
         return topics;
@@ -104,11 +132,30 @@ public class Reader implements Serializable {
         this.topics = topics;
     }
 
-    public ArrayList<Article> getSaved() {
-        return saved;
+    public List<Article> getSavedArticles() {
+        return savedArticles;
     }
 
-    public void setSaved(ArrayList<Article> saved) {
-        this.saved = saved;
+    public void setSavedArticles(List<Article> savedArticles) {
+        this.savedArticles = savedArticles;
     }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public List<Author> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<Author> following) {
+        this.following = following;
+    }
+
+    
+    
 }

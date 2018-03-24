@@ -27,7 +27,6 @@ public class Question implements Serializable {
 
     private String title;
     private String content; // reader's qtn
-    private double compensation;
     private String status; // ANSWERED, REJECTED, PENDING, EXPIRED
     private String reply; // author's reply
     
@@ -35,15 +34,16 @@ public class Question implements Serializable {
     private Reader reader; // raised the qtn
     @OneToOne(cascade = {CascadeType.DETACH})
     private Author author; // asked to answer
+    @OneToOne(cascade = {CascadeType.DETACH})
+    private Compensation compensation; 
 
     public Question() {
         
     }
     
-    public Question(String title, String content, double compensation, String status, Reader reader, Author author) {
+    public Question(String title, String content, String status, Reader reader, Author author) {
         this.title = title;
         this.content = content;
-        this.compensation = compensation;
         this.status = status;
         this.reader = reader;
         this.author = author;
@@ -71,14 +71,6 @@ public class Question implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public double getCompensation() {
-        return compensation;
-    }
-
-    public void setCompensation(double compensation) {
-        this.compensation = compensation;
     }
 
     public String getStatus() {
@@ -112,4 +104,14 @@ public class Question implements Serializable {
     public void setAuthor(Author author) {
         this.author = author;
     }
+
+    public Compensation getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(Compensation compensation) {
+        this.compensation = compensation;
+    }
+    
+    
 }

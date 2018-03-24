@@ -18,12 +18,7 @@ import javax.persistence.OneToOne;
  * @author Yongxue
  */
 @Entity
-public class Reward implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rewardId;
+public class Reward extends Transaction{
 
     @OneToOne(cascade = {CascadeType.DETACH})
     private Article article;
@@ -34,14 +29,6 @@ public class Reward implements Serializable {
 
     public Reward(Article article) {
         this.article = article;
-    }
-
-    public Long getRewardId() {
-        return rewardId;
-    }
-
-    public void setRewardId(Long rewardId) {
-        this.rewardId = rewardId;
     }
 
     public Article getArticle() {
