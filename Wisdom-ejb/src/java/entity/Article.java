@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,15 +32,17 @@ public class Article implements Serializable {
     private String picPath; // path to article picture 
     private String content;
     private int numOfUpvotes = 0;
+    private LocalDateTime time;
 
     @OneToOne(cascade = {CascadeType.DETACH})
     private Author author;
 
     public Article() {
-        
+
     }
-    
-    public Article(String topic, String title, String description, String content, Author author) {
+
+    public Article(String topic, String title, String description,
+            String content, Author author) {
         this.topic = topic;
         this.title = title;
         this.description = description;

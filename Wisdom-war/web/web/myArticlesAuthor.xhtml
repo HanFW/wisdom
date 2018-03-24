@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Wisdom</title>
+    </h:head>
+    <h:body>
+        <div align="center">
+            <h1>Choose Account to View Transaction History</h1>
+        </div>
+
+        <p:dataTable var="bankAccount" value="#{accountDataTableBean.bankAccount}" 
+                     reflow="true" paginator="true" rows="10" emptyMessage="No Account" >
+
+            <p:column headerText="Bank Account Type"> 
+                <p:commandLink process="@this" action="/web/onlineBanking/deposit/customerViewTransactionDone.xhtml?faces-redirect=true">
+                    <h:outputText value="#{bankAccount.bankAccountType}" />
+                    <f:setPropertyActionListener value="#{bankAccount.bankAccountNum}" target="#{transactionManagedBean.bankAccountNum}" />
+                </p:commandLink>
+            </p:column>
+
+            <p:column headerText="Bank Account Number" >
+                <p:commandLink process="@this" action="/web/onlineBanking/deposit/customerViewTransactionDone.xhtml?faces-redirect=true" >
+                    <h:outputText value="#{bankAccount.bankAccountNum}" /> 
+                    <f:setPropertyActionListener value="#{bankAccount.bankAccountNum}" target="#{transactionManagedBean.bankAccountNum}" />
+                </p:commandLink>
+            </p:column>
+
+            <p:column headerText="Available Balance"> 
+                <p:commandLink process="@this" action="/web/onlineBanking/deposit/customerViewTransactionDone.xhtml?faces-redirect=true" >
+                    <h:outputText value="S$#{bankAccount.availableBankAccountBalance}" />
+                    <f:setPropertyActionListener value="#{bankAccount.bankAccountNum}" target="#{transactionManagedBean.bankAccountNum}" />
+                </p:commandLink>
+            </p:column>
+
+            <p:column headerText="Total Balance"> 
+                <p:commandLink process="@this" action="/web/onlineBanking/deposit/customerViewTransactionDone.xhtml?faces-redirect=true" >
+                    <h:outputText value="S$#{bankAccount.totalBankAccountBalance}" />
+                    <f:setPropertyActionListener value="#{bankAccount.bankAccountNum}" target="#{transactionManagedBean.bankAccountNum}" />
+                </p:commandLink>
+            </p:column>
+
+        </p:dataTable>
+    </h:body>
+</html>
+
