@@ -30,3 +30,6 @@ hs_err_pid*
 /dist/
 /Wisdom-war/build/
 /Wisdom-war/dist/
+/nbproject/private/
+/Wisdom-ejb/nbproject/private/
+/Wisdom-war/nbproject/private/
