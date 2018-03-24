@@ -29,17 +29,21 @@ public class Article implements Serializable {
     private String title;
     private String description; // short intro text
     private String picPath; // path to article picture 
-    private String context;
-    private int num_upvotes = 0;
-    
+    private String content;
+    private int numOfUpvotes = 0;
+
     @OneToOne(cascade = {CascadeType.DETACH})
     private Author author;
 
-    public Article(String topic, String title, String description, String context, Author author) {
+    public Article() {
+        
+    }
+    
+    public Article(String topic, String title, String description, String content, Author author) {
         this.topic = topic;
         this.title = title;
         this.description = description;
-        this.context = context;
+        this.content = content;
         this.author = author;
     }
 
@@ -83,20 +87,20 @@ public class Article implements Serializable {
         this.picPath = picPath;
     }
 
-    public String getContext() {
-        return context;
+    public String getContent() {
+        return content;
     }
 
-    public void setContext(String context) {
-        this.context = context;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public int getNum_upvotes() {
-        return num_upvotes;
+    public int getNumOfUpvotes() {
+        return numOfUpvotes;
     }
 
-    public void setNum_upvotes(int num_upvotes) {
-        this.num_upvotes = num_upvotes;
+    public void setNumOfUpvotes(int numOfUpvotes) {
+        this.numOfUpvotes = numOfUpvotes;
     }
 
     public Author getAuthor() {

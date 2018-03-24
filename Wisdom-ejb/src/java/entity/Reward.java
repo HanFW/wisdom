@@ -28,6 +28,10 @@ public class Reward implements Serializable {
     @OneToOne(cascade = {CascadeType.DETACH})
     private Article article;
 
+    public Reward() {
+
+    }
+
     public Reward(Article article) {
         this.article = article;
     }

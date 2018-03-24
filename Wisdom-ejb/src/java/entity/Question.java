@@ -36,6 +36,10 @@ public class Question implements Serializable {
     @OneToOne(cascade = {CascadeType.DETACH})
     private Author author; // asked to answer
 
+    public Question() {
+        
+    }
+    
     public Question(String title, String content, double compensation, String status, Reader reader, Author author) {
         this.title = title;
         this.content = content;

@@ -31,6 +31,10 @@ public class Author implements Serializable {
     private double balance = 0; // received credit
     private double qtnPrice = 5; // author-defined question price (default to 5)
 
+    public Author() {
+        
+    }
+    
     public Author(String name, String description, String email, String pwd, double balance) {
         this.name = name;
         this.description = description;
