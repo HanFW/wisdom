@@ -5,7 +5,6 @@
         <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
             <name>Wisdom-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
-            <included-library dirs="200">libs.Apache_Commons_IO_2.5.classpath</included-library>
             <source-roots>
                 <root id="src.dir" name="Source Packages"/>
             </source-roots>
