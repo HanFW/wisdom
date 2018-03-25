@@ -41,23 +41,22 @@ public class AuthorEntity implements Serializable {
     @XmlTransient
     @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "author")
     private List<ArticleEntity> articles = new ArrayList<>();
-    
+
     @XmlTransient
     @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "author")
     private List<QuestionEntity> questions = new ArrayList<>();
-    
+
     /*
-    AuthorEntity - ReaderEntity JoinTable
+     AuthorEntity - ReaderEntity JoinTable
      */
     @XmlTransient
     @ManyToMany(cascade = {CascadeType.DETACH}, mappedBy = "following")
     private List<ReaderEntity> followers = new ArrayList<>();
-    
-            
+
     public AuthorEntity() {
-        
+
     }
-    
+
     public AuthorEntity(String name, String description, String email, String pwd) {
         this.name = name;
         this.description = description;
@@ -154,7 +153,4 @@ public class AuthorEntity implements Serializable {
     public void setFollowers(List<ReaderEntity> followers) {
         this.followers = followers;
     }
-    
-    
-
 }

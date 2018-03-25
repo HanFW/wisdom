@@ -89,6 +89,4 @@ public class TransactionEntity implements Serializable {
     public void setTo(AuthorEntity to) {
         this.to = to;
     }
-    
-    
 }

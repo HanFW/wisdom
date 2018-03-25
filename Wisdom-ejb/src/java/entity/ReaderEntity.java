@@ -155,7 +155,4 @@ public class ReaderEntity implements Serializable {
     public void setFollowing(List<AuthorEntity> following) {
         this.following = following;
     }
-
-    
-    
 }

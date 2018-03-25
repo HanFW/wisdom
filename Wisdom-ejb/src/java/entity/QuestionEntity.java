@@ -112,6 +112,4 @@ public class QuestionEntity implements Serializable {
     public void setCompensation(CompensationEntity compensation) {
         this.compensation = compensation;
     }
-    
-    
 }

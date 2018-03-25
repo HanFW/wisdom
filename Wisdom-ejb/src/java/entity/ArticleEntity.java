@@ -153,6 +153,4 @@ public class ArticleEntity implements Serializable {
     public void setRewards(List<RewardEntity> rewards) {
         this.rewards = rewards;
     }
-    
-    
 }
