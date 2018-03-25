@@ -30,11 +30,10 @@ public class AuthorEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authorId;
 
-    private String name; // format: [firstName lastName]
+    private String username; 
     private String description; // short intro text
     private String email;
     private String pwd;
-    private String picPath; // path to profile pic
     private BigDecimal balance; // received credit
     private BigDecimal qtnPrice;  // author-defined question price (default to 5)
 
@@ -57,8 +56,8 @@ public class AuthorEntity implements Serializable {
 
     }
 
-    public AuthorEntity(String name, String description, String email, String pwd) {
-        this.name = name;
+    public AuthorEntity(String username, String description, String email, String pwd) {
+        this.username = username;
         this.description = description;
         this.email = email;
         this.pwd = pwd;
@@ -74,13 +73,13 @@ public class AuthorEntity implements Serializable {
         this.authorId = authorId;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setUsername(String username) {
+        this.username = username;
+    }    
 
     public String getDescription() {
         return description;
@@ -104,14 +103,6 @@ public class AuthorEntity implements Serializable {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
-    }
-
-    public String getPicPath() {
-        return picPath;
-    }
-
-    public void setPicPath(String picPath) {
-        this.picPath = picPath;
     }
 
     public BigDecimal getBalance() {
