@@ -45,4 +45,12 @@ public class AuthorSessionBean implements AuthorSessionBeanLocal {
 
         return author;
     }
+    
+    @Override
+    public Long createNewAuthor(String username, String description, String email, String password) {
+        Author author = new Author(username, description, email, password, 0);
+        entityManager.persist(author);
+        entityManager.flush();
+        return author.getAuthorId();
+    }
 }
