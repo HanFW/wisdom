@@ -6,39 +6,44 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
 /**
  *
  * @author Yongxue
  */
+
 @Entity
-public class Transaction implements Serializable {
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+public class TransactionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
 
-    private double amount;
+    private BigDecimal amount;
     private LocalDateTime time; // initialised to .now() upon construction
 
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Reader from;
+    private ReaderEntity from;
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Author to;
+    private AuthorEntity to;
 
-    public Transaction() {
+    public TransactionEntity() {
 
     }
 
-    public Transaction(double amount, LocalDateTime time, Reader from, Author to) {
+    public TransactionEntity(BigDecimal amount, LocalDateTime time, ReaderEntity from, AuthorEntity to) {
         this.amount = amount;
         this.time = LocalDateTime.now();
         this.from = from;
@@ -53,11 +58,11 @@ public class Transaction implements Serializable {
         this.transactionId = transactionId;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -69,19 +74,19 @@ public class Transaction implements Serializable {
         this.time = time;
     }
 
-    public Reader getFrom() {
+    public ReaderEntity getFrom() {
         return from;
     }
 
-    public void setFrom(Reader from) {
+    public void setFrom(ReaderEntity from) {
         this.from = from;
     }
 
-    public Author getTo() {
+    public AuthorEntity getTo() {
         return to;
     }
 
-    public void setTo(Author to) {
+    public void setTo(AuthorEntity to) {
         this.to = to;
     }
 }

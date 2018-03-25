@@ -5,7 +5,7 @@
  */
 package sessionBean;
 
-import entity.Author;
+import entity.AuthorEntity;
 import javax.ejb.Local;
 
 /**
@@ -14,7 +14,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface AuthorSessionBeanLocal {
-
-    public Author retrieveAuthorById(Long authorId);
+    public AuthorEntity retrieveAuthorById(Long authorId);
     public Long createNewAuthor(String username, String description, String email, String password);
 }

@@ -6,17 +6,24 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yongxue
  */
 @Entity
-public class Author implements Serializable {
+public class AuthorEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -28,19 +35,35 @@ public class Author implements Serializable {
     private String email;
     private String pwd;
     private String picPath; // path to profile pic
-    private double balance = 0; // received credit
-    private double qtnPrice = 5; // author-defined question price (default to 5)
+    private BigDecimal balance; // received credit
+    private BigDecimal qtnPrice;  // author-defined question price (default to 5)
 
-    public Author() {
-        
+    @XmlTransient
+    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "author")
+    private List<ArticleEntity> articles = new ArrayList<>();
+
+    @XmlTransient
+    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "author")
+    private List<QuestionEntity> questions = new ArrayList<>();
+
+    /*
+     AuthorEntity - ReaderEntity JoinTable
+     */
+    @XmlTransient
+    @ManyToMany(cascade = {CascadeType.DETACH}, mappedBy = "following")
+    private List<ReaderEntity> followers = new ArrayList<>();
+
+    public AuthorEntity() {
+
     }
-    
-    public Author(String name, String description, String email, String pwd, double balance) {
+
+    public AuthorEntity(String name, String description, String email, String pwd) {
         this.name = name;
         this.description = description;
         this.email = email;
         this.pwd = pwd;
-        this.balance = balance;
+        this.balance = new BigDecimal(0);
+        this.qtnPrice = new BigDecimal(5);
     }
 
     public Long getAuthorId() {
@@ -91,20 +114,43 @@ public class Author implements Serializable {
         this.picPath = picPath;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public double getQtnPrice() {
+    public BigDecimal getQtnPrice() {
         return qtnPrice;
     }
 
-    public void setQtnPrice(double qtnPrice) {
+    public void setQtnPrice(BigDecimal qtnPrice) {
         this.qtnPrice = qtnPrice;
     }
 
+    public List<ArticleEntity> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<ArticleEntity> articles) {
+        this.articles = articles;
+    }
+
+    public List<QuestionEntity> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<QuestionEntity> questions) {
+        this.questions = questions;
+    }
+
+    public List<ReaderEntity> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<ReaderEntity> followers) {
+        this.followers = followers;
+    }
 }

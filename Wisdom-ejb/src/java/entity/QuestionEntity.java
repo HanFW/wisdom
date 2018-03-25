@@ -18,7 +18,7 @@ import javax.persistence.OneToOne;
  * @author Yongxue
  */
 @Entity
-public class Question implements Serializable {
+public class QuestionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -27,23 +27,23 @@ public class Question implements Serializable {
 
     private String title;
     private String content; // reader's qtn
-    private double compensation;
     private String status; // ANSWERED, REJECTED, PENDING, EXPIRED
     private String reply; // author's reply
     
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Reader reader; // raised the qtn
+    private ReaderEntity reader; // raised the qtn
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Author author; // asked to answer
+    private AuthorEntity author; // asked to answer
+    @OneToOne(cascade = {CascadeType.DETACH})
+    private CompensationEntity compensation; 
 
-    public Question() {
+    public QuestionEntity() {
         
     }
     
-    public Question(String title, String content, double compensation, String status, Reader reader, Author author) {
+    public QuestionEntity(String title, String content, String status, ReaderEntity reader, AuthorEntity author) {
         this.title = title;
         this.content = content;
-        this.compensation = compensation;
         this.status = status;
         this.reader = reader;
         this.author = author;
@@ -73,14 +73,6 @@ public class Question implements Serializable {
         this.content = content;
     }
 
-    public double getCompensation() {
-        return compensation;
-    }
-
-    public void setCompensation(double compensation) {
-        this.compensation = compensation;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -97,19 +89,27 @@ public class Question implements Serializable {
         this.reply = reply;
     }
 
-    public Reader getReader() {
+    public ReaderEntity getReader() {
         return reader;
     }
 
-    public void setReader(Reader reader) {
+    public void setReader(ReaderEntity reader) {
         this.reader = reader;
     }
 
-    public Author getAuthor() {
+    public AuthorEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorEntity author) {
         this.author = author;
+    }
+
+    public CompensationEntity getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(CompensationEntity compensation) {
+        this.compensation = compensation;
     }
 }

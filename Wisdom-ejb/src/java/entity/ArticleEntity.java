@@ -7,19 +7,24 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yongxue
  */
 @Entity
-public class Article implements Serializable {
+public class ArticleEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,20 +36,31 @@ public class Article implements Serializable {
     private String description; // short intro text
     private String picPath; // path to article picture 
     private String content;
-    private int numOfUpvotes = 0;
+    private Integer numOfLikes;
     private LocalDateTime time;
 
     @OneToOne(cascade = {CascadeType.DETACH})
-    private Author author;
+    private AuthorEntity author;
+    
+    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "article")
+    private List<RewardEntity> rewards = new ArrayList<>();
+    
+    /*
+    ReaderEntity - ArticleEntity JoinTable
+     */
+    @XmlTransient
+    @ManyToMany(cascade = {CascadeType.DETACH}, mappedBy = "savedArticles")
+    private List<ReaderEntity> readers = new ArrayList<>();
 
-    public Article() {
+    public ArticleEntity() {
 
     }
 
-    public Article(String topic, String title, String description,
-            String content, Author author) {
+    public ArticleEntity(String topic, String title, String description,
+            String content, AuthorEntity author) {
         this.topic = topic;
         this.title = title;
+        this.numOfLikes = 0;
         this.description = description;
         this.content = content;
         this.author = author;
@@ -98,19 +114,43 @@ public class Article implements Serializable {
         this.content = content;
     }
 
-    public int getNumOfUpvotes() {
-        return numOfUpvotes;
+    public Integer getNumOfLikes() {
+        return numOfLikes;
     }
 
-    public void setNumOfUpvotes(int numOfUpvotes) {
-        this.numOfUpvotes = numOfUpvotes;
+    public void setNumOfLikes(Integer numOfLikes) {
+        this.numOfLikes = numOfLikes;
     }
 
-    public Author getAuthor() {
+    public AuthorEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorEntity author) {
         this.author = author;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public List<ReaderEntity> getReaders() {
+        return readers;
+    }
+
+    public void setReaders(List<ReaderEntity> readers) {
+        this.readers = readers;
+    }
+
+    public List<RewardEntity> getRewards() {
+        return rewards;
+    }
+
+    public void setRewards(List<RewardEntity> rewards) {
+        this.rewards = rewards;
     }
 }
