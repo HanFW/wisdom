@@ -13,6 +13,8 @@ import java.io.OutputStream;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import sessionBean.ArticleSessionBeanLocal;
@@ -39,6 +41,8 @@ public class AddNewArticleManagedBean {
     private UploadedFile imageFile;
     private Long newArticleId;
     private Long authorId;
+
+    private ExternalContext ec;
 
     public AddNewArticleManagedBean() {
     }
@@ -84,15 +88,20 @@ public class AddNewArticleManagedBean {
     }
 
     public void addNewArticle() {
+        ec = FacesContext.getCurrentInstance().getExternalContext();
+
+        authorId = Long.valueOf(ec.getSessionMap().get("authorId").toString());
+
         newArticleId = articleSessionBeanLocal.addNewArticle(articleTopic,
                 artilceTitle, articleDescription, articleContent, authorId);
     }
 
     public void upload(FileUploadEvent event) throws IOException {
         imageFile = event.getFile();
+        authorId = Long.valueOf(ec.getSessionMap().get("authorId").toString());
 
         if (imageFile != null) {
-            String filename = "Yongxue" + ".png";
+            String filename = authorId + ".png";
 
             String newFilePath = System.getProperty("user.dir").replace("config", "docroot") + System.getProperty("file.separator");
             OutputStream output = new FileOutputStream(new File(newFilePath, filename));

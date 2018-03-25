@@ -30,7 +30,7 @@ public class AuthorSessionBean implements AuthorSessionBeanLocal {
         AuthorEntity author = new AuthorEntity();
 
         try {
-            Query query = entityManager.createQuery("Select a From Author a Where a.authorId=:authorId");
+            Query query = entityManager.createQuery("Select a From AuthorEntity a Where a.authorId=:authorId");
             query.setParameter("authorId", authorId);
 
             if (query.getResultList().isEmpty()) {
