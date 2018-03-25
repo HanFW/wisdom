@@ -39,13 +39,15 @@ public class AuthorSessionBean implements AuthorSessionBeanLocal {
                 author = (AuthorEntity) query.getSingleResult();
             }
         } catch (EntityNotFoundException enfe) {
+            System.out.println("Entity not found error: " + enfe.getMessage());
             return new AuthorEntity();
         } catch (NonUniqueResultException nure) {
+            System.out.println("Non unique result error: " + nure.getMessage());
         }
 
         return author;
     }
-    
+
     @Override
     public Long createNewAuthor(String username, String description, String email, String password) {
         AuthorEntity author = new AuthorEntity(username, description, email, password);

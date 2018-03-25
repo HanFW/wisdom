@@ -45,7 +45,7 @@ public class ArticleSessionBean implements ArticleSessionBeanLocal {
 
     @Override
     public List<ArticleEntity> retrieveArticlesByAuthorId(Long authorId) {
-        
+
         AuthorEntity author = authorSessionBeanLocal.retrieveAuthorById(authorId);
 
         if (author.getAuthorId() == null) {
@@ -56,6 +56,7 @@ public class ArticleSessionBean implements ArticleSessionBeanLocal {
             query.setParameter("author", author);
             return query.getResultList();
         } catch (EntityNotFoundException enfe) {
+            System.out.println("Entity not found error: " + enfe.getMessage());
             return new ArrayList<ArticleEntity>();
         }
     }
