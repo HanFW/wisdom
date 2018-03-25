@@ -5,6 +5,8 @@
  */
 package sessionBean;
 
+import entity.ArticleEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,5 +18,7 @@ public interface ArticleSessionBeanLocal {
 
     public Long addNewArticle(String topic, String title, String description,
             String context, Long authorId);
+
+    public List<ArticleEntity> retrieveArticlesByAuthorId(Long authorId);
 
 }

@@ -15,7 +15,15 @@
     </ui:define>
 
     <ui:define name="content">
-        content
+        <p:outputLabel value="My Articles" style="font-weight: bold;font-size: 22px"/>
+
+        <p:dataTable var="article" value="#{myArticlesAuthorManagedBean.article}" style="margin-bottom:40px">
+
+            <p:column headerText="Id" sortBy="#{article.articleId}">
+                <h:outputText value="#{article.articleId}" />
+            </p:column>
+
+        </p:dataTable>
     </ui:define>
 
 </ui:composition>

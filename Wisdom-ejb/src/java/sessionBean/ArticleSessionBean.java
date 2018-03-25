@@ -7,10 +7,14 @@ package sessionBean;
 
 import entity.ArticleEntity;
 import entity.AuthorEntity;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -30,12 +34,29 @@ public class ArticleSessionBean implements ArticleSessionBeanLocal {
             String context, Long authorId) {
 
         AuthorEntity author = authorSessionBeanLocal.retrieveAuthorById(authorId);
-        
+
         ArticleEntity article = new ArticleEntity(topic, title, description, context, author);
 
         entityManager.persist(article);
         entityManager.flush();
 
         return article.getArticleId();
+    }
+
+    @Override
+    public List<ArticleEntity> retrieveArticlesByAuthorId(Long authorId) {
+        
+        AuthorEntity author = authorSessionBeanLocal.retrieveAuthorById(authorId);
+
+        if (author.getAuthorId() == null) {
+            return new ArrayList<ArticleEntity>();
+        }
+        try {
+            Query query = entityManager.createQuery("Select a From ArticleEntity a Where a.author=:author");
+            query.setParameter("author", author);
+            return query.getResultList();
+        } catch (EntityNotFoundException enfe) {
+            return new ArrayList<ArticleEntity>();
+        }
     }
 }
