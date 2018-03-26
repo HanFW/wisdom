@@ -1,7 +1,5 @@
 package utility;
 
-import java.math.BigDecimal;
-
 /**
  *
  * @author sherry
@@ -12,6 +10,13 @@ public class Constants {
     // entity status
     public static final String STATUS_DELETED = "DELETED"; // for deleted entities 
     public static final String STATUS_ACTIVE = "ACTIVE"; // for active entities 
+    
+    // question status
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_ANSWERED = "ANSWERED";
+    public static final String STATUS_REJECTED = "REJECTED";
+    public static final String STATUS_EXPIRED = "EXPIRED";
+
 
     // interest topics
     public static final String TOPIC_P = "POLITICS";

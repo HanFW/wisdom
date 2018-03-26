@@ -24,9 +24,9 @@ public interface ReaderSessionBeanLocal {
 
     ReaderEntity followAuthor(Long authorId, Long readerId) throws Exception;
 
-    List<AuthorEntity> getAllFollowingAuthors(Long readerId);
+    List<AuthorEntity> getAllFollowedAuthors(Long readerId);
 
-    ReaderEntity topUpWallet(Long readerId, BigDecimal amount);
+    ReaderEntity topUpWallet(Long readerId, Double amount);
 
     ArticleEntity likeArticle(Long articleId);
 

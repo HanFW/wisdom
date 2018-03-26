@@ -6,12 +6,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import utility.Constants;
 
 /**
  *
@@ -23,12 +26,13 @@ public class QuestionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionId;
+    private Long id;
 
     private String title;
     private String content; // reader's qtn
     private String status; // ANSWERED, REJECTED, PENDING, EXPIRED
     private String reply; // author's reply
+    private LocalDateTime created;
     
     @OneToOne(cascade = {CascadeType.DETACH})
     private ReaderEntity reader; // raised the qtn
@@ -38,23 +42,19 @@ public class QuestionEntity implements Serializable {
     private CompensationEntity compensation; 
 
     public QuestionEntity() {
-        
+        this.status = Constants.STATUS_PENDING;
+        this.reply = null;
+        this.created = LocalDateTime.now();
     }
     
-    public QuestionEntity(String title, String content, String status, ReaderEntity reader, AuthorEntity author) {
+    public QuestionEntity(String title, String content) {
+        this();
         this.title = title;
         this.content = content;
-        this.status = status;
-        this.reader = reader;
-        this.author = author;
     }
 
-    public Long getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -89,6 +89,10 @@ public class QuestionEntity implements Serializable {
         this.reply = reply;
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
     public ReaderEntity getReader() {
         return reader;
     }
@@ -112,4 +116,29 @@ public class QuestionEntity implements Serializable {
     public void setCompensation(CompensationEntity compensation) {
         this.compensation = compensation;
     }
+
+    @Override
+    public String toString() {
+        return "QuestionEntity{" + "id=" + id + ", title=" + title + ", content=" + content + ", status=" + status + ", reply=" + reply + ", created=" + created + ", reader=" + reader + ", author=" + author + ", compensation=" + compensation + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final QuestionEntity other = (QuestionEntity) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    
 }

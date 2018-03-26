@@ -7,15 +7,20 @@ package sessionBean;
 
 import entity.ArticleEntity;
 import entity.AuthorEntity;
+import entity.FollowEntity;
 import entity.ReaderEntity;
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -57,39 +62,59 @@ public class ReaderSessionBean implements ReaderSessionBeanLocal {
         ReaderEntity reader = em.find(ReaderEntity.class, readerId);
         AuthorEntity author = em.find(AuthorEntity.class, authorId);
         if (reader == null || author == null) {
-            return null;
+            throw new EntityNotFoundException();
         }
 
-        if (reader.getFollowing().contains(author)) {
-            throw new Exception("Error! Author is already followed by this reader");
-        }
-
-        reader.getFollowing().add(author);
-        em.merge(reader);
-        author.getFollowers().add(reader);
-        em.merge(author);
-        
+        Query q = em.createNamedQuery("Follow.findByAuthorAndReader")
+                .setParameter("authorId", authorId)
+                .setParameter("readerId", readerId);
+        FollowEntity relationship;
+        try {
+            relationship = (FollowEntity) q.getSingleResult();
+            throw new EntityExistsException("Error! Author is already followed by this reader");
+        } catch (NoResultException e) {
+            relationship = new FollowEntity();
+            relationship.setAuthor(author);
+            relationship.setReader(reader);
+            em.persist(relationship);
+            em.flush();
+        } catch (Exception e) {
+            // TODO: handle all other unexpected exceptions
+        } 
         return reader;
     }
 
     @Override
-    public List<AuthorEntity> getAllFollowingAuthors(Long readerId) {
+    public List<AuthorEntity> getAllFollowedAuthors(Long readerId) {
         ReaderEntity reader = em.find(ReaderEntity.class, readerId);
         if (reader == null) {
             return null;
         }
         
-        return reader.getFollowing();
+        Query q = em.createNamedQuery("Follow.findFollowedAuthorsByReader")
+                .setParameter("readerId", reader.getId());
+        
+        try {
+            List<FollowEntity> followings = q.getResultList();
+            List<AuthorEntity> followedAuthors = new ArrayList<>();
+            for (FollowEntity following: followings) {
+                followedAuthors.add(following.getAuthor());
+            }
+            return followedAuthors;
+        } catch (Exception e) {
+            return null;
+        }
+        
     }
 
     @Override
-    public ReaderEntity topUpWallet(Long readerId, BigDecimal amount) {
+    public ReaderEntity topUpWallet(Long readerId, Double amount) {
         ReaderEntity reader = em.find(ReaderEntity.class, readerId);
         if (reader == null) {
             return null;
         }
         
-        BigDecimal newBalance = reader.getBalance().add(amount);
+        Double newBalance = reader.getBalance() + amount;
         LOGGER.log(Level.FINEST, "the new balance is calculated as {0}", newBalance);
         reader.setBalance(newBalance);
         em.merge(reader);
@@ -103,7 +128,7 @@ public class ReaderSessionBean implements ReaderSessionBeanLocal {
             return null;
         }
 
-        article.setNumOfLikes(article.getNumOfLikes()+1);
+        article.setNumOfUpvotes(article.getNumOfUpvotes()+1);
         return article;
     }
 
@@ -115,14 +140,12 @@ public class ReaderSessionBean implements ReaderSessionBeanLocal {
             return null;
         }
 
-        if (reader.getSavedArticles().contains(article)) {
+        if (reader.getSaved().contains(article)) {
             throw new Exception("Error! Author is already followed by this reader");
         }
         
-        reader.getSavedArticles().add(article);
+        reader.getSaved().add(article);
         em.merge(reader);
-        article.getReaders().add(reader);
-        em.merge(article);
         
         return reader;
     }
@@ -134,7 +157,7 @@ public class ReaderSessionBean implements ReaderSessionBeanLocal {
             return null;
         }
         
-        return reader.getSavedArticles();
+        return reader.getSaved();
     }
     
     

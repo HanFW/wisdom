@@ -35,12 +35,13 @@ public class ArticleSessionBean implements ArticleSessionBeanLocal {
 
         AuthorEntity author = authorSessionBeanLocal.retrieveAuthorById(authorId);
 
-        ArticleEntity article = new ArticleEntity(topic, title, description, context, author);
-
+        ArticleEntity article = new ArticleEntity(topic, title, description, context);
+        article.setAuthor(author);
+        
         entityManager.persist(article);
         entityManager.flush();
 
-        return article.getArticleId();
+        return article.getId();
     }
 
     @Override
@@ -48,14 +49,15 @@ public class ArticleSessionBean implements ArticleSessionBeanLocal {
         
         AuthorEntity author = authorSessionBeanLocal.retrieveAuthorById(authorId);
 
-        if (author.getAuthorId() == null) {
+        if (author.getId()== null) {
+            // TODO: author not found throw exception instead? 
             return new ArrayList<ArticleEntity>();
         }
         try {
             Query query = entityManager.createQuery("Select a From ArticleEntity a Where a.author=:author");
             query.setParameter("author", author);
             return query.getResultList();
-        } catch (EntityNotFoundException enfe) {
+        } catch (EntityNotFoundException e) {
             return new ArrayList<ArticleEntity>();
         }
     }

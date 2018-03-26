@@ -6,8 +6,8 @@
 package entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,10 +29,10 @@ public class TransactionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionId;
+    private Long id;
 
-    private BigDecimal amount;
-    private LocalDateTime time; // initialised to .now() upon construction
+    private Double amount;
+    private LocalDateTime created; // initialised to .now() upon construction
 
     @OneToOne(cascade = {CascadeType.DETACH})
     private ReaderEntity from;
@@ -40,38 +40,24 @@ public class TransactionEntity implements Serializable {
     private AuthorEntity to;
 
     public TransactionEntity() {
-
+        this.created = LocalDateTime.now();
     }
 
-    public TransactionEntity(BigDecimal amount, LocalDateTime time, ReaderEntity from, AuthorEntity to) {
+    public TransactionEntity(Double amount) {
+        this();
         this.amount = amount;
-        this.time = LocalDateTime.now();
-        this.from = from;
-        this.to = to;
     }
 
-    public Long getTransactionId() {
-        return transactionId;
+    public Long getId() {
+        return id;
     }
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public LocalDateTime getCreated() {
+        return created;
     }
 
     public ReaderEntity getFrom() {
@@ -89,4 +75,29 @@ public class TransactionEntity implements Serializable {
     public void setTo(AuthorEntity to) {
         this.to = to;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionEntity{" + "id=" + id + ", amount=" + amount + ", created=" + created + ", from=" + from + ", to=" + to + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TransactionEntity other = (TransactionEntity) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+    
+   
 }

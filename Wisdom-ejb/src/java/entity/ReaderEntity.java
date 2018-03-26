@@ -6,16 +6,14 @@
 package entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -29,57 +27,34 @@ public class ReaderEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long readerId;
+    private Long id;
 
     private String name; // format: [firstName lastName]
-    private String email;
+    private String email; // no setter
     private String pwd;
     private String picPath;
-    private BigDecimal balance; // topped up credit - usage
+    private Double balance; // topped up credit - usage
+    // available topics stored in client app
     private ArrayList<String> topics = new ArrayList<>(); // interested topics
     
-    // available topics stored in client app
-    
-
     @XmlTransient
-    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "reader")
-    private List<QuestionEntity> questions = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.DETACH)
+    private List<ArticleEntity> saved = new ArrayList<>();
     
-    /*
-    AuthorEntity - ReaderEntity JoinTable
-     */
-    @XmlTransient//? should it be returned?
-    @ManyToMany(cascade = CascadeType.DETACH)
-    @JoinTable(name = "ReaderFollowAuthor")
-    private List<AuthorEntity> following = new ArrayList<>();
-    
-     
-    /*
-    ReaderEntity - ArticleEntity JoinTable
-     */
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.DETACH)
-    @JoinTable(name = "ReaderSaveArticle")
-    private List<ArticleEntity> savedArticles = new ArrayList<>();
-    
-
     public ReaderEntity() {
-        
+        this.picPath = null;
+        this.balance = 0.0;
     }
     
     public ReaderEntity(String name, String email, String pwd) {
+        this();
         this.name = name;
         this.email = email;
         this.pwd = pwd;
-        this.balance = new BigDecimal (0);
     }
 
-    public Long getReaderId() {
-        return readerId;
-    }
-
-    public void setReaderId(Long readerId) {
-        this.readerId = readerId;
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -92,10 +67,6 @@ public class ReaderEntity implements Serializable {
 
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPwd() {
@@ -114,15 +85,13 @@ public class ReaderEntity implements Serializable {
         this.picPath = picPath;
     }
 
-    public BigDecimal getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
-
-
 
     public ArrayList<String> getTopics() {
         return topics;
@@ -132,27 +101,37 @@ public class ReaderEntity implements Serializable {
         this.topics = topics;
     }
 
-    public List<ArticleEntity> getSavedArticles() {
-        return savedArticles;
+    public List<ArticleEntity> getSaved() {
+        return saved;
     }
 
-    public void setSavedArticles(List<ArticleEntity> savedArticles) {
-        this.savedArticles = savedArticles;
+    public void setSaved(List<ArticleEntity> saved) {
+        this.saved = saved;
     }
 
-    public List<QuestionEntity> getQuestions() {
-        return questions;
+    @Override
+    public String toString() {
+        return "ReaderEntity{" + "id=" + id + ", name=" + name + ", email=" + email + ", pwd=" + pwd + ", picPath=" + picPath + ", balance=" + balance + ", topics=" + topics + ", saved=" + saved + '}';
     }
 
-    public void setQuestions(List<QuestionEntity> questions) {
-        this.questions = questions;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ReaderEntity other = (ReaderEntity) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
+    
+    
 
-    public List<AuthorEntity> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(List<AuthorEntity> following) {
-        this.following = following;
-    }
 }

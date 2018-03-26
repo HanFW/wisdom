@@ -30,7 +30,7 @@ public class AuthorSessionBean implements AuthorSessionBeanLocal {
         AuthorEntity author = new AuthorEntity();
 
         try {
-            Query query = entityManager.createQuery("Select a From AuthorEntity a Where a.authorId=:authorId");
+            Query query = entityManager.createQuery("Select a From AuthorEntity a Where a.id=:authorId");
             query.setParameter("authorId", authorId);
 
             if (query.getResultList().isEmpty()) {
@@ -41,6 +41,7 @@ public class AuthorSessionBean implements AuthorSessionBeanLocal {
         } catch (EntityNotFoundException enfe) {
             return new AuthorEntity();
         } catch (NonUniqueResultException nure) {
+            // TODO: ??
         }
 
         return author;
@@ -51,6 +52,6 @@ public class AuthorSessionBean implements AuthorSessionBeanLocal {
         AuthorEntity author = new AuthorEntity(username, description, email, password);
         entityManager.persist(author);
         entityManager.flush();
-        return author.getAuthorId();
+        return author.getId();
     }
 }

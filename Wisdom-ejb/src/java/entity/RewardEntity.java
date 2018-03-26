@@ -19,12 +19,8 @@ public class RewardEntity extends TransactionEntity{
     @OneToOne(cascade = {CascadeType.DETACH})
     private ArticleEntity article;
 
-    public RewardEntity() {
-
-    }
-
-    public RewardEntity(ArticleEntity article) {
-        this.article = article;
+    public RewardEntity(Double amount) {
+        super(amount);
     }
 
     public ArticleEntity getArticle() {

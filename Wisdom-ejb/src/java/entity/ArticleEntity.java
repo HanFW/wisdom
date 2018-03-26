@@ -7,17 +7,13 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,49 +25,37 @@ public class ArticleEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long articleId;
+    private Long id;
 
     private String topic;
     private String title;
     private String description; // short intro text
-    private String picPath; // path to article picture 
+    private String picPath; // path to article picture
     private String content;
-    private Integer numOfLikes;
-    private LocalDateTime time;
+    private Integer numOfUpvotes;
+    private LocalDateTime created; // time of creation
 
     @OneToOne(cascade = {CascadeType.DETACH})
     private AuthorEntity author;
-    
-    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "article")
-    private List<RewardEntity> rewards = new ArrayList<>();
-    
-    /*
-    ReaderEntity - ArticleEntity JoinTable
-     */
-    @XmlTransient
-    @ManyToMany(cascade = {CascadeType.DETACH}, mappedBy = "savedArticles")
-    private List<ReaderEntity> readers = new ArrayList<>();
 
     public ArticleEntity() {
-
+        this.picPath = null; // default to no pic
+        this.numOfUpvotes = 0;
+        this.created = LocalDateTime.now();
     }
 
     public ArticleEntity(String topic, String title, String description,
-            String content, AuthorEntity author) {
+            String content) {
+        this();
         this.topic = topic;
         this.title = title;
-        this.numOfLikes = 0;
         this.description = description;
         this.content = content;
-        this.author = author;
+        // relationship fields are set using setters
     }
 
-    public Long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
+    public Long getId() {
+        return id;
     }
 
     public String getTopic() {
@@ -114,12 +98,20 @@ public class ArticleEntity implements Serializable {
         this.content = content;
     }
 
-    public Integer getNumOfLikes() {
-        return numOfLikes;
+    public Integer getNumOfUpvotes() {
+        return numOfUpvotes;
     }
 
-    public void setNumOfLikes(Integer numOfLikes) {
-        this.numOfLikes = numOfLikes;
+    public void setNumOfUpvotes(Integer numOfUpvotes) {
+        this.numOfUpvotes = numOfUpvotes;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     public AuthorEntity getAuthor() {
@@ -130,27 +122,29 @@ public class ArticleEntity implements Serializable {
         this.author = author;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ArticleEntity other = (ArticleEntity) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    @Override
+    public String toString() {
+        return "ArticleEntity{" + "id=" + id + ", topic=" + topic + ", title=" + title + ", description=" + description + ", picPath=" + picPath + ", content=" + content + ", numOfUpvotes=" + numOfUpvotes + ", created=" + created + ", author=" + author + '}';
     }
-
-    public List<ReaderEntity> getReaders() {
-        return readers;
-    }
-
-    public void setReaders(List<ReaderEntity> readers) {
-        this.readers = readers;
-    }
-
-    public List<RewardEntity> getRewards() {
-        return rewards;
-    }
-
-    public void setRewards(List<RewardEntity> rewards) {
-        this.rewards = rewards;
-    }
+    
+    
+    
 }

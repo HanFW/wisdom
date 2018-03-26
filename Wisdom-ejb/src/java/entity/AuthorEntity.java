@@ -6,16 +6,11 @@
 package entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -28,58 +23,42 @@ public class AuthorEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long authorId;
+    private Long id;
 
-    private String username; 
+    private String name; // format {firstName LastName}
     private String description; // short intro text
-    private String email;
+    private String picPath;
+    private String email; // no setter
+    @XmlTransient
     private String pwd;
-    private BigDecimal balance; // received credit
-    private BigDecimal qtnPrice;  // author-defined question price (default to 5)
-
-    @XmlTransient
-    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "author")
-    private List<ArticleEntity> articles = new ArrayList<>();
-
-    @XmlTransient
-    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "author")
-    private List<QuestionEntity> questions = new ArrayList<>();
-
-    /*
-     AuthorEntity - ReaderEntity JoinTable
-     */
-    @XmlTransient
-    @ManyToMany(cascade = {CascadeType.DETACH}, mappedBy = "following")
-    private List<ReaderEntity> followers = new ArrayList<>();
+    private Double balance; // received credit
+    private Double qtnPrice;  // author-defined question price (default to 5)
 
     public AuthorEntity() {
-
+        this.picPath = null; // default to no pic
+        this.balance = 0.0;
+        this.qtnPrice = 5.0;
     }
 
-    public AuthorEntity(String username, String description, String email, String pwd) {
-        this.username = username;
+    public AuthorEntity(String name, String description, String email, String pwd) {
+        this();
+        this.name = name;
         this.description = description;
         this.email = email;
         this.pwd = pwd;
-        this.balance = new BigDecimal(0);
-        this.qtnPrice = new BigDecimal(5);
     }
 
-    public Long getAuthorId() {
-        return authorId;
+    public Long getId() {
+        return id;
     }
 
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
+    public String getName() {
+        return name;
     }
 
-    public String getUsername() {
-        return username;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }    
 
     public String getDescription() {
         return description;
@@ -89,12 +68,16 @@ public class AuthorEntity implements Serializable {
         this.description = description;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPicPath() {
+        return picPath;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getPwd() {
@@ -105,43 +88,44 @@ public class AuthorEntity implements Serializable {
         this.pwd = pwd;
     }
 
-    public BigDecimal getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
-    public BigDecimal getQtnPrice() {
+    public Double getQtnPrice() {
         return qtnPrice;
     }
 
-    public void setQtnPrice(BigDecimal qtnPrice) {
+    public void setQtnPrice(Double qtnPrice) {
         this.qtnPrice = qtnPrice;
     }
 
-    public List<ArticleEntity> getArticles() {
-        return articles;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AuthorEntity other = (AuthorEntity) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
-    public void setArticles(List<ArticleEntity> articles) {
-        this.articles = articles;
+    @Override
+    public String toString() {
+        return "AuthorEntity{" + "id=" + id + ", name=" + name + ", description=" + description + ", picPath=" + picPath + ", email=" + email + ", pwd=" + pwd + ", balance=" + balance + ", qtnPrice=" + qtnPrice + '}';
     }
 
-    public List<QuestionEntity> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<QuestionEntity> questions) {
-        this.questions = questions;
-    }
-
-    public List<ReaderEntity> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(List<ReaderEntity> followers) {
-        this.followers = followers;
-    }
+   
 }
