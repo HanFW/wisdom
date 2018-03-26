@@ -14,11 +14,15 @@ import javax.persistence.OneToOne;
  * @author Yongxue
  */
 @Entity
-public class RewardEntity extends TransactionEntity{
+public class RewardEntity extends TransactionEntity {
 
     @OneToOne(cascade = {CascadeType.DETACH})
     private ArticleEntity article;
-    
+
+    public RewardEntity() {
+
+    }
+
     public RewardEntity(Double amount) {
         super(amount);
     }
