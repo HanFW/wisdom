@@ -18,7 +18,11 @@ public class CompensationEntity extends TransactionEntity {
 
     @OneToOne(cascade = {CascadeType.DETACH})
     private QuestionEntity question;
-    
+
+    public CompensationEntity() {
+
+    }
+
     public CompensationEntity(Double amount) {
         super(amount);
     }
