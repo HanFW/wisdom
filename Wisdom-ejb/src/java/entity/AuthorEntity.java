@@ -11,12 +11,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yongxue
  */
+@NamedQueries({
+    @NamedQuery(name = "AuthorEntity.findFollowedAuthorsByReader",
+            query = "SELECT a FROM FollowEntity f, AuthorEntity a "
+                    + "WHERE f.author.id = a.id "
+                    + "AND f.reader.id = :readerId")
+})
 @Entity
 public class AuthorEntity implements Serializable {
 

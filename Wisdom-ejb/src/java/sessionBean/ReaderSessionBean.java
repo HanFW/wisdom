@@ -65,7 +65,7 @@ public class ReaderSessionBean implements ReaderSessionBeanLocal {
             throw new EntityNotFoundException();
         }
 
-        Query q = em.createNamedQuery("Follow.findByAuthorAndReader")
+        Query q = em.createNamedQuery("FollowEntity.findByAuthorAndReader")
                 .setParameter("authorId", authorId)
                 .setParameter("readerId", readerId);
         FollowEntity relationship;
@@ -91,20 +91,16 @@ public class ReaderSessionBean implements ReaderSessionBeanLocal {
             return null;
         }
         
-        Query q = em.createNamedQuery("Follow.findFollowedAuthorsByReader")
+        Query q = em.createNamedQuery("AuthorEntity.findFollowedAuthorsByReader")
                 .setParameter("readerId", reader.getId());
-        
+        List<AuthorEntity> followedAuthors = null;
         try {
-            List<FollowEntity> followings = q.getResultList();
-            List<AuthorEntity> followedAuthors = new ArrayList<>();
-            for (FollowEntity following: followings) {
-                followedAuthors.add(following.getAuthor());
-            }
-            return followedAuthors;
+            followedAuthors = q.getResultList();
         } catch (Exception e) {
-            return null;
+            //
         }
         
+        return followedAuthors;
     }
 
     @Override

@@ -20,17 +20,18 @@ import javax.persistence.OneToOne;
  * @author Chuck
  */
 @NamedQueries({
-    @NamedQuery(name = "Follow.findByAuthorAndReader",
+    @NamedQuery(name = "FollowEntity.findByAuthorAndReader",
             query = "SELECT f FROM FollowEntity f "
-                    + "WHERE f.author = :authorId "
-                    + "AND f.reader = :readerId"),
-    @NamedQuery(name = "Follow.findFollowersByAuthor",
-            query = "SELECT f FROM FollowEntity f "
-                    + "WHERE f.author = :authorId "),
-    @NamedQuery(name = "Follow.findFollowedAuthorsByReader",
-            query = "SELECT f FROM FollowEntity f "
-                    + "WHERE f.reader = :readerId")
-
+                    + "WHERE f.author.id = :authorId "
+                    + "AND f.reader.id = :readerId"),
+    @NamedQuery(name = "FollowEntity.findFollowedAuthorsByReader",
+            query = "SELECT a FROM FollowEntity f, AuthorEntity a "
+                    + "WHERE f.author.id = a.id "
+                    + "AND f.reader.id = :readerId"),
+    @NamedQuery(name = "FollowEntity.findFollowersByAuthor",
+            query = "SELECT f FROM FollowEntity f, ReaderEntity r "
+                    + "WHERE f.reader.id = r.id "
+                    + "AND f.author.id = :authorId ")
 })
 @Entity
 public class FollowEntity implements Serializable {
