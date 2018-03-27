@@ -24,12 +24,12 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-public class TransactionEntity implements Serializable {
+public abstract class TransactionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     private Double amount;
     private LocalDateTime created; // initialised to .now() upon construction

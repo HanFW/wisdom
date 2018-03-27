@@ -20,7 +20,7 @@ public class RewardEntity extends TransactionEntity {
     private ArticleEntity article;
 
     public RewardEntity() {
-
+        super();
     }
 
     public RewardEntity(Double amount) {

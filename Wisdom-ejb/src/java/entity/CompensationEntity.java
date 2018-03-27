@@ -20,7 +20,7 @@ public class CompensationEntity extends TransactionEntity {
     private QuestionEntity question;
 
     public CompensationEntity() {
-
+        super();
     }
 
     public CompensationEntity(Double amount) {
