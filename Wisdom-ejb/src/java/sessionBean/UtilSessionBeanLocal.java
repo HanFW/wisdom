@@ -36,4 +36,6 @@ public interface UtilSessionBeanLocal {
     List<ArticleEntity> getNewestArticlesOfFollowedAuthors(Long readerId);
 
     List<ArticleEntity> getMostLikedArticlesOfTopic(final String topic);
+
+    ReaderEntity authenticateReader(String email, String pwd);
 }
