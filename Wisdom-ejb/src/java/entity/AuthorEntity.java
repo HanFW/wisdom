@@ -6,13 +6,17 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -42,6 +46,9 @@ public class AuthorEntity implements Serializable {
     private Double balance; // received credit
     private Double qtnPrice;  // author-defined question price (default to 5)
 
+    @OneToMany(cascade = {CascadeType.DETACH}, mappedBy = "author")
+    private List<ArticleEntity> articles = new ArrayList<>();
+    
     public AuthorEntity() {
         this.picPath = null; // default to no pic
         this.balance = 0.0;
@@ -110,6 +117,14 @@ public class AuthorEntity implements Serializable {
 
     public void setQtnPrice(Double qtnPrice) {
         this.qtnPrice = qtnPrice;
+    }
+    
+    public List<ArticleEntity> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<ArticleEntity> articles) {
+        this.articles = articles;
     }
 
     @Override
